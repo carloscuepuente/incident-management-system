@@ -42,7 +42,7 @@ class AuthController {
         );
       }
 
-      await authService.changePassword(req.user._id, oldPassword, newPassword);
+      await authServices.changePassword(req.user._id, oldPassword, newPassword);
 
       return responseUtils.success(
         res,

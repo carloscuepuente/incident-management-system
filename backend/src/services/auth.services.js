@@ -42,7 +42,7 @@ class AuthService {
     }
 
     const isPasswordValid = await user.comparePassword(oldPassword);
-    if (!isPasswwordValid) {
+    if (!isPasswordValid) {
       throw new Error("Contraseña incorrecta");
     }
 
