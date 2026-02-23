@@ -3,15 +3,19 @@ import { useAuth } from "../hooks/useAuth";
 import { ProtectedRoute } from "../components/layout/ProtectedRoute";
 import { Login } from "../pages/Login";
 import { ChangePassword } from "../pages/ChangePassword";
+import { UsersPage } from "../pages/manager/UsersPage";
+import { Button } from "../components/common/Button";
 
 const RiderDashboard = () => (
   <div className="p-8">
     <h1 className="text-2xl">este es el Rider Dashboard placeholder</h1>
+    <Button onClick={() => localStorage.clear()}>borrar localStorage</Button>
   </div>
 );
 const ManagerDashboard = () => (
   <div className="p-8">
     <h1 className="text-2xl">este es el Manager Dashboard placeholder</h1>
+    <Button onClick={() => localStorage.clear()}>borrar localStorage</Button>
   </div>
 );
 
@@ -53,6 +57,14 @@ export const AppRoutes = () => {
           element={
             <ProtectedRoute allowedRoles={["gestor"]}>
               <ManagerDashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/manager/users"
+          element={
+            <ProtectedRoute allowedRoles={["gestor"]}>
+              <UsersPage />
             </ProtectedRoute>
           }
         />
