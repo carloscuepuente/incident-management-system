@@ -16,6 +16,7 @@ router.use(authMiddleware);
 // todas estas rutas requieren el rol de gestor
 router.use(requireRole("gestor"));
 
+// ruta completa /api/users/riders/stats
 router.get("/riders/stats", userController.getRiderStats);
 
 //CRUD
