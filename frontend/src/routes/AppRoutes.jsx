@@ -1,17 +1,13 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
+import { Button } from "../components/common/Button";
 import { ProtectedRoute } from "../components/layout/ProtectedRoute";
 import { Login } from "../pages/Login";
 import { ChangePassword } from "../pages/ChangePassword";
 import { UsersPage } from "../pages/manager/UsersPage";
-import { Button } from "../components/common/Button";
+import { RiderDashboard } from "../pages/rider/RiderDashboard";
+import { ReportIncident } from "../pages/rider/ReportIncident";
 
-const RiderDashboard = () => (
-  <div className="p-8">
-    <h1 className="text-2xl">este es el Rider Dashboard placeholder</h1>
-    <Button onClick={() => localStorage.clear()}>borrar localStorage</Button>
-  </div>
-);
 const ManagerDashboard = () => (
   <div className="p-8">
     <h1 className="text-2xl">este es el Manager Dashboard placeholder</h1>
@@ -47,6 +43,14 @@ export const AppRoutes = () => {
           element={
             <ProtectedRoute allowedRoles={["rider"]}>
               <RiderDashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/rider/report-incident"
+          element={
+            <ProtectedRoute allowedRoles={["rider"]}>
+              <ReportIncident />
             </ProtectedRoute>
           }
         />
