@@ -7,13 +7,8 @@ import { ChangePassword } from "../pages/ChangePassword";
 import { UsersPage } from "../pages/manager/UsersPage";
 import { RiderDashboard } from "../pages/rider/RiderDashboard";
 import { ReportIncident } from "../pages/rider/ReportIncident";
-
-const ManagerDashboard = () => (
-  <div className="p-8">
-    <h1 className="text-2xl">este es el Manager Dashboard placeholder</h1>
-    <Button onClick={() => localStorage.clear()}>borrar localStorage</Button>
-  </div>
-);
+import { ManagerDashboard } from "../pages/manager/ManagerDashboard";
+import { IncidentsPage } from "../pages/manager/IncidentsPage";
 
 export const AppRoutes = () => {
   const { isAuthenticated, user } = useAuth();
@@ -69,6 +64,15 @@ export const AppRoutes = () => {
           element={
             <ProtectedRoute allowedRoles={["gestor"]}>
               <UsersPage />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/manager/incidents"
+          element={
+            <ProtectedRoute allowedRoles={["gestor"]}>
+              <IncidentsPage />
             </ProtectedRoute>
           }
         />

@@ -40,4 +40,18 @@ export const incidentsApi = {
     });
     return response.data;
   },
+
+  getStatistics: async (filters = {}) => {
+    const params = new URLSearchParams();
+
+    if (filters?.startDate) {
+      params.append("startDate", filters.startDate);
+    }
+    if (filters?.endDate) {
+      params.append("endDate", filters.endDate);
+    }
+
+    const response = await axios.get(`/incidents/stats?${params.toString()}`);
+    return response.data;
+  },
 };
