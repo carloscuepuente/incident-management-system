@@ -1,5 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { incidentsApi } from "../api/incidents.api";
+import { useDebounce } from "./useDebounce";
 
 export const useIncidents = (filters = {}, isManager = false) => {
   const [incidents, setIncidents] = useState([]);
@@ -7,13 +8,20 @@ export const useIncidents = (filters = {}, isManager = false) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const fetchIncidents = async () => {
+  const debouncedSearch = useDebounce(filters.search, 1000);
+
+  const fetchIncidents = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
 
+      const effectiveFilters = {
+        ...filters,
+        search: debouncedSearch,
+      };
+
       const response = isManager
-        ? await incidentsApi.getAllIncidents(filters)
+        ? await incidentsApi.getAllIncidents(effectiveFilters)
         : await incidentsApi.getMyIncidents();
 
       if (response.success) {
@@ -24,28 +32,46 @@ export const useIncidents = (filters = {}, isManager = false) => {
     } finally {
       setLoading(false);
     }
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    isManager,
+    filters.status,
+    filters.priority,
+    filters.type,
+    debouncedSearch,
+  ]);
 
-  const fetchStats = async () => {
+  const fetchStats = useCallback(async () => {
     if (!isManager) return;
 
+    const effectiveFilters = {
+      ...filters,
+      search: debouncedSearch,
+    };
+
     try {
-      const response = await incidentsApi.getStatistics(filters);
+      const response = await incidentsApi.getStatistics(effectiveFilters);
       if (response.success) {
         setStats(response.data);
       }
     } catch (err) {
       console.error("Error fetching stats:", err);
     }
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    isManager,
+    filters.status,
+    filters.priority,
+    filters.type,
+    debouncedSearch,
+  ]);
 
   useEffect(() => {
     fetchIncidents();
     if (isManager) {
       fetchStats();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [JSON.stringify(filters), isManager]);
+  }, [fetchIncidents, fetchStats, isManager]);
 
   const createIncident = async (incidentData) => {
     const response = await incidentsApi.createIncident(incidentData);
