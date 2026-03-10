@@ -38,7 +38,6 @@ export const UsersPage = () => {
   const handleFilterStatus = (isActive) => {
     if (filters.isActive === isActive) {
       // Remover filtro si se hace click en el mismo
-      // eslint-disable-next-line no-unused-vars
       const { isActive, ...rest } = filters;
       setFilters(rest);
     } else {
@@ -296,7 +295,10 @@ export const UsersPage = () => {
           </div>
 
           {/* Botón crear */}
-          <Button onClick={() => setShowCreateModal(true)}>
+          <Button
+            className="flex items-center"
+            onClick={() => setShowCreateModal(true)}
+          >
             <svg
               className="w-5 h-5 mr-2"
               fill="none"
