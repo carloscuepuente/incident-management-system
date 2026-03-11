@@ -9,22 +9,22 @@ const app = express();
 const allowedOrigins = process.env.CORS_ORIGIN
   ? process.env.CORS_ORIGIN.split(",")
   : [];
-app.use(
-  cors({
-    origin: function (origin, callback) {
-      if (allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("CORS blocked: origin not allowed"));
-      }
-    },
-    methods: ["GET", "POST", "PUT", "PATCH", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-    credentials: true,
-  }),
-);
 
-app.options("*", cors());
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (origin && allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("CORS blocked: origin not allowed"));
+    }
+  },
+  methods: ["GET", "POST", "PUT", "PATCH", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true,
+};
+app.use(cors(corsOptions));
+
+app.options("{*path}", cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
