@@ -54,7 +54,6 @@ export const IncidentsPage = () => {
   const handleUpdatePriority = async (id, priority) => {
     try {
       const result = await updatePriority(id, priority);
-      console.log(result);
       if (result.success) {
         showMessage("Prioridad actualizada exitosamente", "success");
       }

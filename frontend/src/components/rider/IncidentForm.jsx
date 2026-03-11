@@ -72,7 +72,6 @@ export const IncidentForm = ({ onSubmit, loading }) => {
     if (formData.comment.trim()) {
       dataToSubmit.comment = formData.comment.trim();
     }
-    // console.log("Datos a enviar:", dataToSubmit);
 
     onSubmit(dataToSubmit);
   };
