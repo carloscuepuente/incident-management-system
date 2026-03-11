@@ -5,7 +5,8 @@ import errorHandler from "./middlewares/errorHandler.middleware.js";
 
 const app = express();
 
-app.use(cors());
+const allowedOrigins = process.env.CORS_ORIGIN.split(",");
+app.use(cors({ origin: allowedOrigins }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
