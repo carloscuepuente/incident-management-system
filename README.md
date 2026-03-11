@@ -81,6 +81,16 @@ Los riders pueden reportar:
 
 ---
 
+## Demo gifs
+
+### Rider
+
+![Rider](/docs/gifs/rider.gif)
+
+### Gestor (admin)
+
+![Admin](/docs/gifs/admin.gif)
+
 ## Capturas de Pantalla
 
 ### Login
