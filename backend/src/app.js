@@ -3,8 +3,10 @@ import "dotenv/config";
 import cors from "cors";
 import routes from "./routes/index.js";
 import errorHandler from "./middlewares/errorHandler.middleware.js";
+import { globalLimiter } from "./middlewares/rateLimit.middleware.js";
 
 const app = express();
+app.set("trust proxy", 1);
 
 const allowedOrigins = process.env.CORS_ORIGIN
   ? process.env.CORS_ORIGIN.split(",")
@@ -15,7 +17,7 @@ const corsOptions = {
     if (origin && allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
-      callback(new Error("CORS blocked: origin not allowed"));
+      callback(null, false);
     }
   },
   methods: ["GET", "POST", "PUT", "PATCH", "OPTIONS"],
@@ -28,6 +30,7 @@ app.options("{*path}", cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.use("/api", globalLimiter);
 app.use("/api", routes);
 
 app.use(errorHandler);
